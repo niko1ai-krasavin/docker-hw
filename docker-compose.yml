@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  nginx:
+    image: localhost:5000/my_nginx
+    mem_limit: 128mb
+    mem_reservation: 64mb
+    cpus: '0.5'
+    ports:
+      - "8080:80"
+    volumes:
+      - ./volume:/usr/share/nginx/html
+    networks:
+      - nginx_network
+
+  apache:
+    image: localhost:5000/my_apache
+    mem_limit: 128mb
+    mem_reservation: 64mb
+    cpus: '0.5'
+    ports:
+      - "9090:80"
+    volumes:
+      - ./volume:/usr/local/apache2/htdocs/
+    networks:
+      - apache_network
+
+networks:
+  apache_network:
+    name: apache_bridge
+    driver: bridge
+  nginx_network:
+    name: nginx_bridge
+    driver: bridge
